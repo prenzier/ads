@@ -1,0 +1,42 @@
+Searching 28 files for "<?php echo "
+
+/Users/mercadolivre/Sites/softAds/cadastro_briefing.php:
+   46  		<div class="ch-wizard">
+   47  			<ol class="ch-wizard-breadcrumb ch-steps-three">
+   48: 				<?php echo $wizard1;?>
+   49: 				<?php echo $wizard2;?>
+   50: 				<?php echo $wizard3;?>
+   51  			</ol>
+   52  
+   53: 			<form id="step1" class="ch-form"<?php echo $style1;?>>
+   54  				<div class="ch-box-container">
+   55  					<h2>Primeiro passo</h2>
+   ..
+  203  			</form>
+  204  
+  205: 			<form id="step2" class="ch-form"<?php echo $style2;?>>
+  206  				<div class="ch-box-container">
+  207  					<h2>Segundo passo</h2>
+  ...
+  294  			</form>
+  295  
+  296: 			<form id="step3" class="ch-form"<?php echo $style3;?>>
+  297  				<div class="ch-box-container">
+  298  					<h2>Ultimo passo</h2>
+  ...
+  718  								?>
+  719  								<li class="ch-form-row">
+  720: 									<input type="checkbox" value="<?php echo $categoria->id;?>" id="arroba_banner_hc_categorias<?php echo $x;?>" name="arroba_banner_hc_categorias">
+  721: 									<label for="arroba_banner_hc_categorias<?php echo $x;?>" style='width: 300px !important'>
+  722: 										<?php echo $categoria->name;?>
+  723  									</label>
+  724  								</li>
+
+/Users/mercadolivre/Sites/softAds/index.php:
+    9  		<div class="ch-box-information">Sistema interno</div>
+   10  		<h2>Autenticação de usuários: </h2>
+   11: 		<p class='ch-centerelement' style='width: 128px'><a href="https://auth.mercadolibre.com/authorization?response_type=code&client_id=<?php echo CLIENT_ID;?>&redirect_uri=<?php echo REDIRECT_URL;?>" class="ch-btn ch-btn-big">Login MELI</a></p>
+   12  	</div>
+   13  <?php
+
+12 matches across 2 files
