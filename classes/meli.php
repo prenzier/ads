@@ -4,8 +4,10 @@ class Authentication {
 		$url =  BASE_URI.'/oauth/token';
 		$data = array('grant_type' => 'authorization_code', 'client_id' => CLIENT_ID, 'client_secret' => CLIENT_SECRET, 'code' => $code, 'redirect_uri' => REDIRECT_URL);
 		$result = curl_f($url, $data);
+#		print_r($result);
 		if($result->token_type == 'bearer') {
 			$userME = curl_f('https://api.mercadolibre.com/users/me?access_token='.$result->access_token);
+#			print_r($userME);
 			if(strstr($userME->nickname, 'ML')) {
 				$_SESSION['access_token'] = $result->access_token;
 				$_SESSION['refresh_token'] = $result->refresh_token;
