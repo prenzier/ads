@@ -5,6 +5,38 @@ require "classes/meli.php";
 
 $system = new Query();
 
+switch ($_POST['step']){
+    case '1':
+        if($_POST['briefing_id'] > 0){
+#            update_passo1
+            echo "UPDATE 1";
+            $system->updateStep1();
+        }
+        else{
+#            insert_passo1
+            echo "INSERT 1";
+            $system->insertStep1();
+        }
+    break;
+    case '2':
+        if($_POST['briefing_id'] > 0){
+#            update_passo2
+            echo "UPDATE 3";
+            $system->updateStep2();
+        }
+    break;
+    case '3':
+        if($_POST['briefing_id'] > 0){
+#            update_passo2
+            echo "UPDATE 3";
+            $system->updateStep3();
+        }
+    break;
+    default:
+    break;
+
+}
+
 switch ($_GET['briefing_step']) {
 	case '1':
 		$wizard1 = '<li class="ch-wizard-current">Step 1</li>';
@@ -30,7 +62,7 @@ switch ($_GET['briefing_step']) {
 		$style2 = ' style="display: none"';
 		$style3 = ' style="display: block"';
 		break;
-	
+
 	default:
 		$wizard1 = '<li class="ch-wizard-current">Step 1</li>';
 		$wizard2 = '<li class="ch-wizard-step">Step 2</li>';
@@ -50,7 +82,7 @@ switch ($_GET['briefing_step']) {
 				<?php echo $wizard3;?>
 			</ol>
 
-			<form id="step1" class="ch-form"<?php echo $style1;?>>
+			<form id="step1" class="ch-form"<?php echo $style1;?> action="cadastro_briefing.php" method="post">
 				<div class="ch-box-container">
 					<h2>Primeiro passo</h2>
 				</div>
@@ -59,14 +91,14 @@ switch ($_GET['briefing_step']) {
 						<label for="data_do_briefing">
 							Data do briefing:
 						</label>
-						<input type="text" id="data_do_briefing" class="myDatePicker" placeholder="DD/MM/YYYY" readonly="true">
+						<input type="text" id="data_do_briefing" name="data_do_briefing" class="myDatePicker" placeholder="DD/MM/YYYY" readonly="true">
 					</p>
 					<div class="clear"></div>
 	  				<div class="ch-form-row ch-form-required">
 						<label for="email_executivo_id">
 							E-mail Executivo Responsável: <em>*</em>
 						</label>
-						<select class="required-option" id="email_executivo_id" required="required" pattern="[^-1]">
+						<select class="required-option" id="email_executivo_id" name="email_executivo_id" required="required" pattern="[^-1]">
 							<option value="">Selecione uma opção</option>
 							<?php
 							$sql = $system->getExecutivos();
@@ -91,7 +123,7 @@ switch ($_GET['briefing_step']) {
 									Interno (calhau)
 								</label>
 							</li>
-		
+
 						</ul>
 					</div>
 					<p class="ch-form-row ch-form-line-two ch-form-required">
@@ -99,16 +131,18 @@ switch ($_GET['briefing_step']) {
 							Anunciante: <em>*</em>
 						</label>
 						<input type="text" class="autoCompleteAnunciantes required" id="autoCompleteAnunciantes" placeholder="Digite o nickname do anunciante" name='anunciante' />
+						<input type="hidden" name="anunciante_id" id="anunciante_id" value="">
 					</p>
 					<p class="ch-form-row ch-form-line-two ch-form-required">
 						<label for="autocomplete">
 							Agẽncia: <em>*</em>
 						</label>
-						<input type="text" class="autoCompleteAgencias required" id="autoCompleteAgencias" placeholder="Digite o nome da agencia" name='anunciante' />
+						<input type="text" class="autoCompleteAgencias required" id="autoCompleteAgencias" placeholder="Digite o nome da agencia" name='agencia' />
+						<input type="hidden" name="agencia_id" id="agencia_id" value="">
 					</p>
 
 					<h5>Contato comercial</h5>
-
+                    <input type="hidden" name="contato_comercial_id" id="contato_comercial_id" value="<?=$contato_comercial_id;?> ">
 
 					<p class="ch-form-row ch-form-line-four ch-form-required">
 						<label for="autocomplete">
@@ -156,9 +190,9 @@ switch ($_GET['briefing_step']) {
 						</ul>
 					</div>
 
-
+                <div id="div_contato_operacional">
 					<h5>Contato operacional</h5>
-
+                    <input type="hidden" name="contato_operacional_id" id="contato_operacional_id" value="<?=$contato_operacional_id;?> ">
 
 					<p class="ch-form-row ch-form-line-four ch-form-required">
 						<label for="autocomplete">
@@ -178,15 +212,15 @@ switch ($_GET['briefing_step']) {
 						<label for="autocomplete">
 							Telefone: <em>*</em>
 						</label>
-						<input type="text" class="required" placeholder="(11) 99999-9999" name='operacional_contato_telefone' />
+						<input type="text" class="required" placeholder="(11) 99999-9999" name='operacional_contato_telefone' id='operacional_contato_telefone' />
 					</p>
 					<p class="ch-form-row ch-form-line-four ch-form-required">
 						<label for="autocomplete">
 							Telefone celular:
 						</label>
-						<input type="text" placeholder="(11) 99999-9999" name='operacional_contato_celular' />
+						<input type="text" placeholder="(11) 99999-9999" name='operacional_contato_celular' id='operacional_contato_celular'/>
 					</p>
-
+                </div>
 
 					<p class="ch-form-row ch-form-required">
 						<label for="autocomplete">
@@ -197,6 +231,9 @@ switch ($_GET['briefing_step']) {
 
 				</fieldset>
 				<div class="ch-actions">
+    				<input type="hidden" name="action" id="action" value="<?=$action;?>">
+				    <input type="hidden" name="briefing_id" id="briefing_id" value="<?=$briefing_id;?>">
+				    <input type="hidden" name="step" id="step" value="1">
 					<input type='submit' class="ch-btn" value='Próximo' />
 					<a href="#">Voltar</a>
 				</div>
@@ -222,7 +259,7 @@ switch ($_GET['briefing_step']) {
 									Display
 								</label>
 							</li>
-		
+
 						</ul>
 					</div>
 					<div class="ch-list-options ch-form-required radio2 required-option">
@@ -285,9 +322,12 @@ switch ($_GET['briefing_step']) {
 						</label>
 						<textarea name='informacoes_adicionais' cols='60' rows='5'></textarea>
 					</p>
-					
+
 				</fieldset>
 				<div class="ch-actions">
+    				<input type="hidden" name="action" id="action" value="<?=$action;?>">
+				    <input type="hidden" name="briefing_id" id="briefing_id" value="<?=$briefing_id;?>">
+				    <input type="hidden" name="step" id="step" value="2">
 					<input type='submit' class="ch-btn" value='Próximo' />
 					<a href="#">Voltar</a>
 				</div>
@@ -313,7 +353,7 @@ switch ($_GET['briefing_step']) {
 									QCat
 								</label>
 							</li>
-		
+
 						</ul>
 					</div>
 					<h5>MercadoAds</h5>
@@ -376,7 +416,7 @@ switch ($_GET['briefing_step']) {
 								</label>
 							</li>
 						</ul>
-					</div>	
+					</div>
 					<p class="ch-form-row">
 						<label for="mads_inicio">
 							Data inicio:
@@ -462,7 +502,7 @@ switch ($_GET['briefing_step']) {
 									Não
 								</label>
 							</li>
-		
+
 						</ul>
 					</div>
 					<p class="ch-form-row ch-form-required">
@@ -550,7 +590,7 @@ switch ($_GET['briefing_step']) {
 								</label>
 							</li>
 						</ul>
-					</div>					
+					</div>
 					<h5>Desconto do Dia (DOD)</h5>
 					<p class="ch-form-row ch-form-required">
 						<label for="desconto_do_dia_diarias">
@@ -739,7 +779,7 @@ switch ($_GET['briefing_step']) {
 								$x++;
 							}
 							?>
-							
+
 						</ul>
 					</div>
 					<div class="ch-form-row ch-form-line-four ch-form-required">
@@ -939,6 +979,9 @@ switch ($_GET['briefing_step']) {
 				</fieldset>
 
 				<div class="ch-actions">
+    				<input type="hidden" name="action" id="action" value="<?=$action;?>">
+				    <input type="hidden" name="briefing_id" id="briefing_id" value="<?=$briefing_id;?>">
+				    <input type="hidden" name="step" id="step" value="3">
 					<input type='submit' class="ch-btn" value='Concluir' />
 					<a href="#">Voltar</a>
 				</div>
@@ -946,6 +989,7 @@ switch ($_GET['briefing_step']) {
 
 		</div>
 	</div>
+
 	<script src="template/js/jquery.js"></script>
 	<script src="template/js/chico-min-0.13.1.js"></script>
 	<script type="text/javascript">
@@ -978,6 +1022,26 @@ switch ($_GET['briefing_step']) {
 		$('.required-email-operacional').required().and().email();
 
 
+		$("#mesmoContatoSim").click(function() {
+            $("#div_contato_operacional").hide();
+
+            $("#autoCompleteOperacional").attr('disabled','disabled');
+            $("#autoCompleteOperacionalEmail").attr('disabled','disabled');
+            $("#operacional_contato_telefone").attr('disabled','disabled');
+            $("#operacional_contato_celular").attr('disabled','disabled');
+
+        });
+
+        $("#mesmoContatoNao").click(function() {
+            $("#div_contato_operacional").show();
+
+            $("#autoCompleteOperacional").removeAttr('disabled');
+            $("#autoCompleteOperacionalEmail").removeAttr('disabled');
+            $("#operacional_contato_telefone").removeAttr('disabled');
+            $("#operacional_contato_celular").removeAttr('disabled');
+        });
+
+
 		var	datePicker = $("#data_do_briefing").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
@@ -999,18 +1063,18 @@ switch ($_GET['briefing_step']) {
 		var	datePicker = $("#qcat_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});		
+		});
 
 		var	datePicker = $("#desconto_do_dia_data_insercao").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 
 
 		var	datePicker = $("#destaque_home_data_inicio_estrela").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 		var	datePicker = $("#destaque_home_data_fim_estrela").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
@@ -1022,69 +1086,69 @@ switch ($_GET['briefing_step']) {
 		var	datePicker = $("#destaque_home_data_fim_mundo").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});		
+		});
 		var	datePicker = $("#super_banner_data_inicio_mc").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 		var	datePicker = $("#super_banner_data_fim_mc").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});			
+		});
 		var	datePicker = $("#180150_mc_data_inicio").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});			
+		});
 		var	datePicker = $("#180150_mc_data_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});			
+		});
 		var	datePicker = $("#arroba_banner_hca_data_inicio").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});			
+		});
 		var	datePicker = $("#arroba_banner_hca_data_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});		
+		});
 
 		var	datePicker = $("#super_banner_freevips_data_inicio").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});			
+		});
 		var	datePicker = $("#super_banner_freevips_data_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 		var	datePicker = $("#arroba_banner_freevips_data_inicio").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});			
+		});
 		var	datePicker = $("#arroba_banner_freevips_data_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});				
-		
+		});
+
 
 		var	datePicker = $("#patrocinio_data_inicio").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 		var	datePicker = $("#patrocinio_data_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 		var	datePicker = $("#product_ads_data_inicio").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 		var	datePicker = $("#product_ads_data_fim").datePicker({
 			"selected": "2011/11/15",
 			"to": "today"
-		});	
+		});
 
-		
-		
+
+
 
 		// AutoComplete
 
@@ -1098,6 +1162,7 @@ switch ($_GET['briefing_step']) {
 		});
 
 		function agenciasComplete(data) {
+		    alert(data);
 			autoCompleteAgencias.suggest(data);
 		}
 
